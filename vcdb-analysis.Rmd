@@ -1,0 +1,33 @@
+---
+title: "VCDB Analysis Notebook"
+subtitle: 
+output: 
+  html_notebook:
+    theme: flatly
+    highlight: zenburn
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+editor_options: 
+  chunk_output_type: inline
+---
+
+# Setup
+
+```{r setup, eval=FALSE}
+# libraries ----
+library(tidyverse)
+library(here)
+
+# code block options ----
+knitr::opts_chunk$set(
+  cache = FALSE
+)
+
+# formatting ----
+theme_set(theme_light())
+```
+
+```{r}
+plot(cars)
+```
