@@ -1,6 +1,5 @@
 ---
 title: "VCDB Analysis Notebook"
-subtitle: 
 output: 
   html_notebook:
     theme: flatly
@@ -14,10 +13,13 @@ editor_options:
 
 # Setup
 
+Load relevant libraries, set some notebook settings, and tweak default format for graphs.
+
 ```{r setup, eval=FALSE}
 # libraries ----
 library(tidyverse)
 library(here)
+library(verisr)
 
 # code block options ----
 knitr::opts_chunk$set(
@@ -28,6 +30,106 @@ knitr::opts_chunk$set(
 theme_set(theme_light())
 ```
 
-```{r}
-plot(cars)
+Load data, specifically the validated incidents from https://github.com/vz-risk/VCDB.
+
+```{r data}
+# TODO download latest vcdb.dat
+# TODO download latest data/validated files
+# TODO download latest vcdb-merged.json
+
+load(here("vcdb.dat"), verbose=TRUE)
+vcdb_dir <- here("data", "validated")
+schema_loc <- here("vcdb-merged.json")
+
+vcdb <- verisr::json2veris(dir = vcdb_dir, schema = schema_loc)
 ```
+
+# Summary
+
+Incident counts since 2010, organized by `action` and `timeline.incident.year`.
+
+```{r}
+vcdb %>% 
+  getenumCI2020(
+    enum = "action",
+    by = "timeline.incident.year",
+    ci.method = "bootstrap",
+    na.rm = TRUE
+  ) %>% 
+  filter(by >= 2010) %>% 
+  select(-method) %>% 
+  mutate(freq = scales::percent(freq, accuracy = 1),
+         lower = scales::percent(lower, accuracy = 1),
+         upper = scales::percent(upper, accuracy = 1)) %>%
+  DT::datatable()
+```
+
+When comparing to DBIR volumes, it's more appropriate to filter by `plus.dbir_year` instead of `timeline.incident.year`. For digging into breaches specifically, filter `attribute.confidentiality.data_disclosure.Yes`.
+
+```{r}
+vcdb %>% 
+  filter(attribute.confidentiality.data_disclosure.Yes) %>% 
+  getenumCI2020(
+    enum = "action",
+    by = "plus.dbir_year",
+    ci.method = "bootstrap",
+    na.rm = TRUE
+  ) %>% 
+  filter(by >= 2010) %>% 
+  select(-method) %>% 
+  mutate(freq = scales::percent(freq, accuracy = 1),
+         lower = scales::percent(lower, accuracy = 1),
+         upper = scales::percent(upper, accuracy = 1)) %>%
+  DT::datatable()
+```
+
+There are a *lot* of variables, so exploring them can feel a bit... hack-y. Find all columns that include `disclosure`.
+
+```{r}
+grep("disclosure", names(vcdb), value = TRUE)
+```
+
+We can look at other high-level breakdowns, such as counts of breaches vs. incidents by DBIR publication years.
+
+```{r}
+vcdb %>%
+  filter(plus.dbir_year >= 2014) %>% 
+  group_by(attribute.confidentiality.data_disclosure.Yes) %>%
+  count(plus.dbir_year) %>%
+  ungroup() %>%
+  rename(breach = attribute.confidentiality.data_disclosure.Yes) %>% 
+mutate(breach = ifelse(breach, "Breach", "Incident")) %>%
+  ggplot(mapping = aes(x = plus.dbir_year,
+                       y = n,
+                       group = breach)
+         ) +
+  geom_bar(mapping = aes(
+    fill = breach
+  ),
+  stat = "identity"
+  ) +
+  geom_text(mapping = aes(
+    y = n + 10,
+    label = n
+  ),
+  position = position_dodge(0.9),
+  size = 3) +
+  labs(title = "Breaches and Incidents by DBIR Year", 
+       x = NULL, 
+       y = NULL) +
+  scale_x_continuous(
+    breaks = seq(2014, 2021, by = 1)
+  ) +
+  scale_y_continuous(
+    limits = c(0, 1000)
+    ) +
+  scale_fill_brewer() +
+  theme_minimal() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    legend.title = element_blank()
+  )
+```
+
