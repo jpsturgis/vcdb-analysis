@@ -1,13 +1,24 @@
 ---
 title: "VCDB Analysis Notebook"
-output: 
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs'; 
+  rmarkdown::render(input_file, 
+  encoding=encoding, 
+  output_file=file.path(dirname(input_file),
+  out_dir, 'index.html'))
+  })
+output:
   html_notebook:
     theme: flatly
     highlight: zenburn
     toc: yes
     toc_depth: 3
     toc_float: yes
-editor_options: 
+  html_document:
+    toc: yes
+    toc_depth: '3'
+    df_print: paged
+editor_options:
   chunk_output_type: inline
 ---
 
@@ -22,9 +33,7 @@ library(here)
 library(verisr)
 
 # code block options ----
-knitr::opts_chunk$set(
-  cache = FALSE
-)
+knitr::opts_chunk$set(cache = FALSE)
 
 # formatting ----
 theme_set(theme_light())
@@ -37,9 +46,9 @@ Load data, specifically the validated incidents from https://github.com/vz-risk/
 # TODO download latest data/validated files
 # TODO download latest vcdb-merged.json
 
-load(here("vcdb.dat"), verbose=TRUE)
-vcdb_dir <- here("data", "validated")
-schema_loc <- here("vcdb-merged.json")
+load(here::here("vcdb.dat"), verbose = TRUE)
+vcdb_dir <- here::here("data", "validated")
+schema_loc <- here::here("vcdb-merged.json")
 
 vcdb <- verisr::json2veris(dir = vcdb_dir, schema = schema_loc)
 ```
@@ -49,18 +58,20 @@ vcdb <- verisr::json2veris(dir = vcdb_dir, schema = schema_loc)
 Incident counts since 2010, organized by `action` and `timeline.incident.year`.
 
 ```{r}
-vcdb %>% 
+vcdb %>%
   getenumCI2020(
     enum = "action",
     by = "timeline.incident.year",
     ci.method = "bootstrap",
     na.rm = TRUE
-  ) %>% 
-  filter(by >= 2010) %>% 
-  select(-method) %>% 
-  mutate(freq = scales::percent(freq, accuracy = 1),
-         lower = scales::percent(lower, accuracy = 1),
-         upper = scales::percent(upper, accuracy = 1)) %>%
+  ) %>%
+  filter(by >= 2010) %>%
+  select(-method) %>%
+  mutate(
+    freq = scales::percent(freq, accuracy = 1),
+    lower = scales::percent(lower, accuracy = 1),
+    upper = scales::percent(upper, accuracy = 1)
+  ) %>%
   DT::datatable()
 ```
 
