@@ -1,0 +1,21 @@
+Type: Compendium
+Package: vcdb-analysis
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.1
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com")
+Description: Public notebook of analysis for VERIS
+    Community Database records
+License: What license it uses
+Depends: 
+    DT,
+    rmarkdown,
+    scales,
+    verisr
+Remotes: 
+    vz-risk/verisr
+Encoding: UTF-8
+LazyData: true

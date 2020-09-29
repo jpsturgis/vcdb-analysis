@@ -109,7 +109,7 @@ mutate(breach = ifelse(breach, "Breach", "Incident")) %>%
   stat = "identity"
   ) +
   geom_text(mapping = aes(
-    y = n + 10,
+    y = n,
     label = n
   ),
   position = position_dodge(0.9),
