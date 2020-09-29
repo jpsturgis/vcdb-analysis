@@ -9,6 +9,9 @@ write_compendium_description(
   path = "."
   )
 
-write_dockerfile(maintainer = "John Sturgis")
+write_dockerfile(
+  maintainer = "John Sturgis",
+  branch = "main"
+  )
 
 generate_badge()

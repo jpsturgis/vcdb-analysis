@@ -12,10 +12,14 @@ Description: Public notebook of analysis for VERIS
 License: What license it uses
 Depends: 
     DT,
+    here,
+    holepunch,
+    remotes,
     rmarkdown,
     scales,
     verisr
 Remotes: 
+    karthik/holepunch,
     vz-risk/verisr
 Encoding: UTF-8
 LazyData: true
