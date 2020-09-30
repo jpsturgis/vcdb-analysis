@@ -1,14 +1,5 @@
 ---
 title: "VCDB Analysis Notebook"
-knit: (function(input, encoding = "UTF-8", envir = parent.frame()) {
-  rmarkdown::render(
-    input, 
-    output_file=paste0(
-      input, 
-      "index.html"),
-      output_dir = "docs"
-      )
-  })
 output:
   html_notebook:
     theme: flatly
@@ -32,22 +23,13 @@ Load relevant libraries, set some notebook settings, and tweak default format fo
 # libraries ----
 library(tidyverse)
 library(here)
-# library(verisr)
+library(verisr)
 
 # code block options ----
 knitr::opts_chunk$set(cache = FALSE)
 
 # formatting ----
 theme_set(theme_light())
-
-# testing rmarkdown::render()
-# rmarkdown::render(
-#     here::here("vcdb-analysis.Rmd"), 
-#     output_file=paste0(
-#       here::here("vcdb-analysis.Rmd"), 
-#       "index.html"),
-#       output_dir = here::here("docs")
-#       )
 ```
 
 Load data, specifically the validated incidents from https://github.com/vz-risk/VCDB.
