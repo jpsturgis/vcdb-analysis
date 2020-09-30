@@ -1,6 +1,6 @@
 Type: Compendium
 Package: vcdb-analysis
-Title: Analysis of VCDB Records
+Title: Analysis of VERIS Community Database Records
 Version: 0.0.1
 Authors@R: 
     person(given = "John",
@@ -13,8 +13,14 @@ License: What license it uses
 Depends: 
     DT,
     here,
+    holepunch,
+    renv,
     rmarkdown,
     scales,
-    tidyverse
+    tidyverse,
+    verisr
+Remotes: 
+    karthik/holepunch,
+    vz-risk/verisr
 Encoding: UTF-8
 LazyData: true

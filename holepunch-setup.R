@@ -1,4 +1,4 @@
-# remotes::install_github("karthik/holepunch")
+remotes::install_github("karthik/holepunch")
 
 library(holepunch)
 
