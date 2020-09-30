@@ -13,8 +13,8 @@ License: What license it uses
 Depends: 
     DT,
     here,
-    remotes,
     rmarkdown,
-    scales
+    scales,
+    tidyverse
 Encoding: UTF-8
 LazyData: true
