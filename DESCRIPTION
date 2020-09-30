@@ -1,12 +1,12 @@
 Type: Compendium
 Package: vcdb-analysis
-Title: What the Package Does (One Line, Title Case)
+Title: Analysis of VCDB Records
 Version: 0.0.1
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "John",
+           family = "Sturgis",
            role = c("aut", "cre"),
-           email = "first.last@example.com")
+           email = "jpsturgis@gmail.com")
 Description: Public notebook of analysis for VERIS
     Community Database records
 License: What license it uses
