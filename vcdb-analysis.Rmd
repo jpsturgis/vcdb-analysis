@@ -1,23 +1,26 @@
 ---
 title: "VCDB Analysis Notebook"
-knit: (function(input_file, encoding) {
-  out_dir <- 'docs'; 
-  rmarkdown::render(input_file, 
-  encoding=encoding, 
-  output_file=file.path(dirname(input_file),
-  out_dir, 'index.html'))
+knit: (function(input, encoding = "UTF-8") {
+  rmarkdown::render(
+    input, 
+    output_file=paste0(
+      input, 
+      "index.html"),
+      output_dir = "docs",
+      envir = globalenv()
+      )
   })
 output:
+  html_document:
+    toc: yes
+    toc_depth: '3'
+    df_print: paged
   html_notebook:
     theme: flatly
     highlight: zenburn
     toc: yes
     toc_depth: 3
     toc_float: yes
-  html_document:
-    toc: yes
-    toc_depth: '3'
-    df_print: paged
 editor_options:
   chunk_output_type: inline
 ---
