@@ -1,16 +1,17 @@
 ---
 title: "VCDB Analysis Notebook"
 output:
+  html_document:
+    toc: yes
+    toc_depth: '3'
+    df_print: paged
   html_notebook:
     theme: flatly
     highlight: zenburn
     toc: yes
     toc_depth: 3
     toc_float: yes
-  html_document:
-    toc: yes
-    toc_depth: '3'
-    df_print: paged
+
 editor_options:
   chunk_output_type: inline
 ---
