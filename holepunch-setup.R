@@ -11,7 +11,10 @@ write_compendium_description(
 
 write_dockerfile(
   maintainer = "John Sturgis",
-  branch = "main"
+  branch = "main",
+  install_github = TRUE
   )
 
-generate_badge()
+generate_badge(
+  branch = "main"
+)
