@@ -15,9 +15,6 @@ Depends:
     here,
     remotes,
     rmarkdown,
-    scales,
-    verisr
-Remotes: 
-    vz-risk/verisr
+    scales
 Encoding: UTF-8
 LazyData: true

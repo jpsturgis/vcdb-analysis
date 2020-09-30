@@ -30,7 +30,7 @@ Load relevant libraries, set some notebook settings, and tweak default format fo
 # libraries ----
 library(tidyverse)
 library(here)
-library(verisr)
+# library(verisr)
 
 # code block options ----
 knitr::opts_chunk$set(cache = FALSE)
@@ -59,7 +59,7 @@ Incident counts since 2010, organized by `action` and `timeline.incident.year`.
 
 ```{r}
 vcdb %>%
-  getenumCI2020(
+  verisr::getenumCI2020(
     enum = "action",
     by = "timeline.incident.year",
     ci.method = "bootstrap",
@@ -80,7 +80,7 @@ When comparing to DBIR volumes, it's more appropriate to filter by `plus.dbir_ye
 ```{r}
 vcdb %>% 
   filter(attribute.confidentiality.data_disclosure.Yes) %>% 
-  getenumCI2020(
+  verisr::getenumCI2020(
     enum = "action",
     by = "plus.dbir_year",
     ci.method = "bootstrap",
