@@ -10,15 +10,11 @@ knit: (function(input, encoding) {
   })
 output:
   html_document:
-    toc: yes
-  html_notebook:
     theme: flatly
     highlight: zenburn
     toc: yes
     toc_depth: 3
     toc_float: yes
-editor_options:
-  chunk_output_type: inline
 ---
 
 # Setup
@@ -58,21 +54,21 @@ vcdb <- verisr::json2veris(dir = vcdb_dir, schema = schema_loc)
 Incident counts since 2010, organized by `action` and `timeline.incident.year`.
 
 ```{r actions}
-# vcdb %>%
-#   verisr::getenumCI2020(
-#     enum = "action",
-#     by = "timeline.incident.year",
-#     ci.method = "bootstrap",
-#     na.rm = TRUE
-#   ) %>%
-#   filter(by >= 2010) %>%
-#   select(-method) %>%
-#   mutate(
-#     freq = scales::percent(freq, accuracy = 1),
-#     lower = scales::percent(lower, accuracy = 1),
-#     upper = scales::percent(upper, accuracy = 1)
-#   ) %>%
-#   DT::datatable()
+vcdb %>%
+  verisr::getenumCI2020(
+    enum = "action",
+    by = "timeline.incident.year",
+    ci.method = "bootstrap",
+    na.rm = TRUE
+  ) %>%
+  filter(by >= 2010) %>%
+  select(-method) %>%
+  mutate(
+    freq = scales::percent(freq, accuracy = 1),
+    lower = scales::percent(lower, accuracy = 1),
+    upper = scales::percent(upper, accuracy = 1)
+  ) %>%
+  DT::datatable()
 ```
 
 When comparing to DBIR volumes, it's more appropriate to filter by `plus.dbir_year` instead of `timeline.incident.year`. For digging into breaches specifically, filter `attribute.confidentiality.data_disclosure.Yes`.
